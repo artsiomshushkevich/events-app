@@ -1,24 +1,23 @@
 import Head from 'next/head';
 
 import { getEventById /*, getFeaturedEvents */ } from '@/utils/api';
-import { EventSummary } from '@/components/EventDetail/EventSumamry';
+import { EventSummary } from '@/components/EventDetail/EventSummary';
 import { EventLogistics } from '@/components/EventDetail/EventLogistics';
 import { EventContent } from '@/components/EventDetail/EventContent';
 import { Comments } from '@/components/Input/Comments';
 
 function EventDetailPage(props) {
+    // TODO: make call through the real api
     // const event = props.selectedEvent;
     const event = getEventById(props.params.eventId);
 
-    console.log('!!!!');
-
-    if (!event) {
-        return (
-            <div className='center'>
-                <p>Loading...</p>
-            </div>
-        );
-    }
+    // if (!event) {
+    //     return (
+    //         <div className='center'>
+    //             <p>Loading...</p>
+    //         </div>
+    //     );
+    // }
 
     return (
         <>

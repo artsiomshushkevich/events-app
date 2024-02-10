@@ -10,17 +10,9 @@ export const metadata = {
 };
 
 function AllEventsPage(props) {
-    // TODO: move routing
-    // const router = useRouter();
     // TODO: get via API
     // const { events } = props;
     const events = getAllEvents();
-
-    // const findEventsHandler = (year, month) => {
-    //     const fullPath = `/events/${year}/${month}`;
-
-    //     router.push(fullPath);
-    // };
 
     return (
         <>

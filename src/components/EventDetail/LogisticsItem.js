@@ -1,4 +1,3 @@
-'use client';
 import classes from './LogisticsItem.module.css';
 
 export const LogisticsItem = props => {

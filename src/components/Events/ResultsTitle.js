@@ -1,5 +1,4 @@
-'use client';
-import Button from '../UI/Button';
+import { Button } from '../UI/Button';
 import classes from './ResultsTitle.module.css';
 
 export const ResultsTitle = props => {

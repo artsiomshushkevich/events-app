@@ -1,4 +1,3 @@
-'use client';
 import { EventItem } from './EventItem';
 import classes from './EventList.module.css';
 

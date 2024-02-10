@@ -1,4 +1,3 @@
-'use client';
 import classes from './EventSummary.module.css';
 
 export const EventSummary = props => {

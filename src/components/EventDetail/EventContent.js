@@ -1,4 +1,3 @@
-'use client';
 import classes from './EventContent.module.css';
 
 export const EventContent = props => {
