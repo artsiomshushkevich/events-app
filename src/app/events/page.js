@@ -9,10 +9,10 @@ export const metadata = {
     description: 'Find a lot of great events that allow you to evolve...'
 };
 
-function AllEventsPage(props) {
+async function AllEventsPage(props) {
     // TODO: get via API
     // const { events } = props;
-    const events = getAllEvents();
+    const events = await getAllEvents();
 
     return (
         <>

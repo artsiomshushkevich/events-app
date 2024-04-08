@@ -1,26 +1,40 @@
-// export async function getAllEvents() {
-//     const response = await fetch(
-//         'https://nextjs-course-c81cc-default-rtdb.firebaseio.com/events.json'
-//     );
-//     const data = await response.json();
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, getDocs, query, where } from 'firebase/firestore';
 
-//     const events = [];
+const firebaseConfig = {
+    apiKey: 'AIzaSyAQat4yLokpM_mE6c1xKwTj9SCsbSFr-WU',
+    authDomain: 'events-39550.firebaseapp.com',
+    projectId: 'events-39550',
+    storageBucket: 'events-39550.appspot.com',
+    messagingSenderId: '284962112757',
+    appId: '1:284962112757:web:f38677ebb0e2bd71eff1bc'
+};
 
-//     for (const key in data) {
-//         events.push({
-//             id: key,
-//             ...data[key]
-//         });
-//     }
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-//     return events;
-// }
+function formatEvents(events) {
+    return events.map(item => ({
+        id: item.id,
+        ...item.data()
+    }));
+}
 
-// export async function getFeaturedEvents() {
-//     const allEvents = await getAllEvents();
-//     return allEvents.filter(event => event.isFeatured);
-// }
+export async function getAllEvents() {
+    const snapshot = await getDocs(collection(db, 'events'));
 
+    return formatEvents(snapshot.docs);
+}
+
+export async function getFeaturedEvents() {
+    const q = query(collection(db, 'events'), where('isFeatured', '==', true));
+
+    const snapshot = await getDocs(q);
+
+    console.log(snapshot);
+
+    return formatEvents(snapshot.docs);
+}
 // export async function getEventById(id) {
 //     const allEvents = await getAllEvents();
 //     return allEvents.find(event => event.id === id);
@@ -38,47 +52,6 @@
 
 //     return filteredEvents;
 // }
-
-const DUMMY_EVENTS = [
-    {
-        id: 'e1',
-        title: 'Programming for everyone',
-        description:
-            'Everyone can learn to code! Yes, everyone! In this live event, we are going to go through all the key basics and get you started with programming as well.',
-        location: 'Somestreet 25, 12345 San Somewhereo',
-        date: '2021-05-12',
-        image: 'images/coding.jpg',
-        isFeatured: false
-    },
-    {
-        id: 'e2',
-        title: 'Networking for introverts',
-        description:
-            "We know: Networking is no fun if you are an introvert person. That's why we came up with this event - it'll be so much easier. Promised!",
-        location: 'New Wall Street 5, 98765 New Work',
-        date: '2021-05-30',
-        image: 'images/introvert.jpg',
-        isFeatured: true
-    },
-    {
-        id: 'e3',
-        title: 'Networking for extroverts',
-        description:
-            'You probably need no help with networking in general. But focusing your energy correctly - that is something where most people can improve.',
-        location: 'My Street 12, 10115 Broke City',
-        date: '2022-04-10',
-        image: 'images/extrovert.jpg',
-        isFeatured: true
-    }
-];
-
-export function getFeaturedEvents() {
-    return DUMMY_EVENTS.filter(event => event.isFeatured);
-}
-
-export function getAllEvents() {
-    return DUMMY_EVENTS;
-}
 
 export function getFilteredEvents(year, month) {
     let filteredEvents = DUMMY_EVENTS.filter(event => {

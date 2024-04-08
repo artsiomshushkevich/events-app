@@ -7,9 +7,9 @@ export const metadata = {
     description: 'Find a lot of great events that allow you to evolve...'
 };
 
-function HomePage(props) {
+async function HomePage(props) {
     // TODO: replace with api
-    const events = getFeaturedEvents();
+    const events = await getFeaturedEvents();
 
     return (
         <>
