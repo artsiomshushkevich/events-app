@@ -8,7 +8,7 @@ import classes from './EventLogistics.module.css';
 export const EventLogistics = props => {
     const { date, address, image, imageAlt } = props;
 
-    const humanReadableDate = new Date(date).toLocaleDateString('en-US', {
+    const humanReadableDate = date.dateObj.toDate().toLocaleDateString('en-US', {
         day: 'numeric',
         month: 'long',
         year: 'numeric'

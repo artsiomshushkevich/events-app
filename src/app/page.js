@@ -8,7 +8,6 @@ export const metadata = {
 };
 
 async function HomePage(props) {
-    // TODO: replace with api
     const events = await getFeaturedEvents();
 
     return (

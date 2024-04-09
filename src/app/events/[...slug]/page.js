@@ -18,7 +18,7 @@ export const generateMetadata = ({ params }) => {
     };
 };
 
-function FilteredEventsPage(props) {
+async function FilteredEventsPage(props) {
     const { numYear, numMonth } = getMonthAndYearFromSlug(props.params.slug);
 
     if (
@@ -41,10 +41,7 @@ function FilteredEventsPage(props) {
         );
     }
 
-    const filteredEvents = getFilteredEvents(numYear, numMonth).filter(event => {
-        const eventDate = new Date(event.date);
-        return eventDate.getFullYear() === numYear && eventDate.getMonth() === numMonth - 1;
-    });
+    const filteredEvents = await getFilteredEvents(numYear, numMonth);
 
     if (!filteredEvents || filteredEvents.length === 0) {
         return (

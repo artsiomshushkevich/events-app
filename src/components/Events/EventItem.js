@@ -9,11 +9,12 @@ import classes from './EventItem.module.css';
 export const EventItem = props => {
     const { title, image, date, location, id } = props;
 
-    const humanReadableDate = new Date(date).toLocaleDateString('en-US', {
+    const humanReadableDate = date.dateObj.toDate().toLocaleDateString('en-US', {
         day: 'numeric',
         month: 'long',
         year: 'numeric'
     });
+
     const formattedAddress = location.replace(', ', '\n');
     const exploreLink = `/events/${id}`;
 

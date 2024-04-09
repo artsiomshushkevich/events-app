@@ -6,10 +6,10 @@ import { EventLogistics } from '@/components/EventDetail/EventLogistics';
 import { EventContent } from '@/components/EventDetail/EventContent';
 import { Comments } from '@/components/Input/Comments';
 
-function EventDetailPage(props) {
+async function EventDetailPage(props) {
     // TODO: make call through the real api
     // const event = props.selectedEvent;
-    const event = getEventById(props.params.eventId);
+    const event = await getEventById(props.params.eventId);
 
     // if (!event) {
     //     return (

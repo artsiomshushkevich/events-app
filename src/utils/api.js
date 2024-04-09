@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, query, where } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, query, where, getDoc, doc } from 'firebase/firestore';
 
 const firebaseConfig = {
     apiKey: 'AIzaSyAQat4yLokpM_mE6c1xKwTj9SCsbSFr-WU',
@@ -35,33 +35,26 @@ export async function getFeaturedEvents() {
 
     return formatEvents(snapshot.docs);
 }
-// export async function getEventById(id) {
-//     const allEvents = await getAllEvents();
-//     return allEvents.find(event => event.id === id);
-// }
 
-// export async function getFilteredEvents(dateFilter) {
-//     const { year, month } = dateFilter;
+export async function getEventById(id) {
+    const docRef = doc(db, 'events', id);
 
-//     const allEvents = await getAllEvents();
+    const snapshot = await getDoc(docRef);
 
-//     let filteredEvents = allEvents.filter(event => {
-//         const eventDate = new Date(event.date);
-//         return eventDate.getFullYear() === year && eventDate.getMonth() === month - 1;
-//     });
-
-//     return filteredEvents;
-// }
-
-export function getFilteredEvents(year, month) {
-    let filteredEvents = DUMMY_EVENTS.filter(event => {
-        const eventDate = new Date(event.date);
-        return eventDate.getFullYear() === year && eventDate.getMonth() === month - 1;
-    });
-
-    return filteredEvents;
+    return {
+        id: snapshot.id,
+        ...snapshot.data()
+    };
 }
 
-export function getEventById(id) {
-    return DUMMY_EVENTS.find(event => event.id === id);
+export async function getFilteredEvents(year, month) {
+    const q = query(
+        collection(db, 'events'),
+        where('date.year', '==', year),
+        where('date.month', '==', month)
+    );
+
+    const snapshot = await getDocs(q);
+
+    return formatEvents(snapshot.docs);
 }

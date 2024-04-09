@@ -10,7 +10,6 @@ export const metadata = {
 };
 
 async function AllEventsPage(props) {
-    // TODO: get via API
     // const { events } = props;
     const events = await getAllEvents();
 
