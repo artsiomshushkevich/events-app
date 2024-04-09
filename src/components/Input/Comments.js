@@ -14,17 +14,13 @@ export const Comments = props => {
         setShowComments(prevStatus => !prevStatus);
     }
 
-    function addCommentHandler(commentData) {
-        // send data to API
-    }
-
     return (
         <section className={classes.comments}>
-            <button onClick={toggleCommentsHandler}>
+            <button className={classes.expandButton} onClick={toggleCommentsHandler}>
                 {showComments ? 'Hide' : 'Show'} Comments
             </button>
-            {showComments && <NewComment onAddComment={addCommentHandler} />}
-            {showComments && <CommentList />}
+            {showComments && <NewComment eventId={eventId} />}
+            {showComments && <CommentList eventId={eventId} />}
         </section>
     );
 };

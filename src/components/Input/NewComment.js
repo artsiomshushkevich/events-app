@@ -1,59 +1,51 @@
 'use client';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
+import { useFormState } from 'react-dom';
+import { create } from '@/app/actions/comments';
+import { SubmitButton } from '../UI/SubmitButton';
 import classes from './NewComment.module.css';
 
-export const NewComment = props => {
-    const [isInvalid, setIsInvalid] = useState(false);
+const initialState = {
+    email: '',
+    name: '',
+    comment: ''
+};
 
-    const emailInputRef = useRef();
-    const nameInputRef = useRef();
-    const commentInputRef = useRef();
-
-    function sendCommentHandler(event) {
-        event.preventDefault();
-
-        const enteredEmail = emailInputRef.current.value;
-        const enteredName = nameInputRef.current.value;
-        const enteredComment = commentInputRef.current.value;
-
-        if (
-            !enteredEmail ||
-            enteredEmail.trim() === '' ||
-            !enteredEmail.includes('@') ||
-            !enteredName ||
-            enteredName.trim() === '' ||
-            !enteredComment ||
-            enteredComment.trim() === ''
-        ) {
-            setIsInvalid(true);
-            return;
-        }
-
-        props.onAddComment({
-            email: enteredEmail,
-            name: enteredName,
-            text: enteredComment
-        });
-    }
+export const NewComment = ({ eventId }) => {
+    const createCommentWithEventId = create.bind(null, eventId);
+    const [state, formAction] = useFormState(createCommentWithEventId, initialState);
+    const nameRef = useRef(null);
+    const emailRef = useRef(null);
+    const commentRef = useRef(null);
 
     return (
-        <form className={classes.form}>
+        <form className={classes.form} action={formAction}>
             <div className={classes.row}>
                 <div className={classes.control}>
                     <label htmlFor='email'>Your email</label>
-                    <input type='email' id='email' ref={emailInputRef} />
+                    <input type='email' id='email' name='email' required ref={emailRef} />
                 </div>
                 <div className={classes.control}>
                     <label htmlFor='name'>Your name</label>
-                    <input type='text' id='name' ref={nameInputRef} />
+                    <input type='text' id='name' name='name' required ref={nameRef} />
                 </div>
             </div>
             <div className={classes.control}>
                 <label htmlFor='comment'>Your comment</label>
-                <textarea id='comment' rows='5' ref={commentInputRef}></textarea>
+                <textarea id='comment' rows='5' name='comment' required ref={commentRef}></textarea>
             </div>
-            {isInvalid && <p>Please enter a valid email address and comment!</p>}
-            <button>Submit</button>
+            {state?.errorMessage && <p>{state.errorMessage}</p>}
+            <SubmitButton
+                onSubmitted={() => {
+                    nameRef.current.value = '';
+                    emailRef.current.value = '';
+                    commentRef.current.value = '';
+
+                    window.dispatchEvent(new CustomEvent('CommentCreated'));
+                }}
+            >
+                Submit
+            </SubmitButton>
         </form>
     );
 };

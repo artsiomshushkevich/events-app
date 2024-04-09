@@ -12,7 +12,7 @@ export const Button = props => {
     }
 
     return (
-        <button className={classes.btn} onClick={props.onClick}>
+        <button className={classes.btn} disabled={props.disabled} onClick={props.onClick}>
             {props.children}
         </button>
     );

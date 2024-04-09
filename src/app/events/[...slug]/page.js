@@ -1,4 +1,5 @@
-import { getFilteredEvents } from '@/utils/api';
+import { Suspense } from 'react';
+import { getFilteredEvents } from '@/models/events';
 import { EventList } from '@/components/Events/EventList';
 import { ResultsTitle } from '@/components/Events/ResultsTitle';
 import { Button } from '@/components/UI/Button';
@@ -59,55 +60,11 @@ async function FilteredEventsPage(props) {
     const date = new Date(numYear, numMonth - 1);
 
     return (
-        <>
+        <Suspense fallback={<h1>Loading...</h1>}>
             <ResultsTitle date={date} />
             <EventList items={filteredEvents} />
-        </>
+        </Suspense>
     );
 }
-
-// export async function getServerSideProps(context) {
-//   const { params } = context;
-
-//   const filterData = params.slug;
-
-//   const filteredYear = filterData[0];
-//   const filteredMonth = filterData[1];
-
-//   const numYear = +filteredYear;
-//   const numMonth = +filteredMonth;
-
-//   if (
-//     isNaN(numYear) ||
-//     isNaN(numMonth) ||
-//     numYear > 2030 ||
-//     numYear < 2021 ||
-//     numMonth < 1 ||
-//     numMonth > 12
-//   ) {
-//     return {
-//       props: { hasError: true },
-//       // notFound: true,
-//       // redirect: {
-//       //   destination: '/error'
-//       // }
-//     };
-//   }
-
-//   const filteredEvents = await getFilteredEvents({
-//     year: numYear,
-//     month: numMonth,
-//   });
-
-//   return {
-//     props: {
-//       events: filteredEvents,
-//       date: {
-//         year: numYear,
-//         month: numMonth,
-//       },
-//     },
-//   };
-// }
 
 export default FilteredEventsPage;
